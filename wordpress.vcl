@@ -44,6 +44,13 @@ sub vcl_recv {
   }
 }
 
+# Needed for SSL support
+sub vcl_hash {
+   if ( req.http.X-Forwarded-Proto ) {
+    hash_data( req.http.X-Forwarded-Proto );
+   }
+}
+
 sub vcl_deliver {
 # multi-server webfarm? set a variable here so you can check
 # the headers to see which frontend served the request
