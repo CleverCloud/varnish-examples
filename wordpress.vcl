@@ -68,6 +68,10 @@ sub vcl_hit {
 }
 
 sub vcl_miss {
+  if (!(req.url ~ "wp-(login|admin)")) {
+    unset req.http.cookie;
+  }
+  
   if (req.method == "PURGE") {
     return (synth(404, "Not cached"));
   }
